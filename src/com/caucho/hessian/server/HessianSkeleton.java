@@ -51,7 +51,6 @@ package com.caucho.hessian.server;
 import com.caucho.hessian.io.AbstractHessianInput;
 import com.caucho.hessian.io.AbstractHessianOutput;
 import com.caucho.services.server.AbstractSkeleton;
-import com.caucho.services.server.ServiceContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -120,19 +119,10 @@ public class HessianSkeleton extends AbstractSkeleton {
 		     AbstractHessianOutput out)
     throws Exception
   {
-    ServiceContext context = ServiceContext.getContext();
-
     // backward compatibility for some frameworks that don't read
     // the call type first
     in.skipOptionalCall();
     
-    String header;
-    while ((header = in.readHeader()) != null) {
-      Object value = in.readObject();
-
-      context.addHeader(header, value);
-    }
-
     String methodName = in.readMethod();
     Method method = getMethod(methodName);
 
