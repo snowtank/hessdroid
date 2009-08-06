@@ -19,7 +19,6 @@ import java.io.Serializable;
 
 import org.junit.Before;
 
-import com.caucho.hessian.server.HessianSkeleton;
 
 /**
  * Base class for all hessdroid tests. The formal generic parameter <tt>T</tt> is used to specify the type

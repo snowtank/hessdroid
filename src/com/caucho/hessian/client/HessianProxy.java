@@ -49,7 +49,6 @@
 package com.caucho.hessian.client;
 
 import com.caucho.hessian.io.*;
-import com.caucho.services.server.*;
 
 import java.io.*;
 import java.util.logging.*;
@@ -60,6 +59,8 @@ import java.util.WeakHashMap;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+
+import org.ast.tests.base.AbstractSkeleton;
 
 /**
  * Proxy implementation for Hessian clients. Applications will generally use

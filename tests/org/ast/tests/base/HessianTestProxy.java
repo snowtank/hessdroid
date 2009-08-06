@@ -34,8 +34,6 @@ import com.caucho.hessian.io.HessianDebugInputStream;
 import com.caucho.hessian.io.HessianInput;
 import com.caucho.hessian.io.HessianOutput;
 import com.caucho.hessian.io.HessianProtocolException;
-import com.caucho.hessian.server.HessianSkeleton;
-import com.caucho.services.server.AbstractSkeleton;
 
 /**
  * Proxy implementation for Hessian test clients. It implements {@link InvocationHandler} in order

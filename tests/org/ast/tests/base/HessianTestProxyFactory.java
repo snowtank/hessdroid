@@ -20,7 +20,6 @@ import java.lang.reflect.Proxy;
 
 import com.caucho.hessian.client.HessianProxyFactory;
 import com.caucho.hessian.io.HessianRemoteObject;
-import com.caucho.hessian.server.HessianSkeleton;
 
 /**
  * Factory for {@link HessianTestProxy} that extends {@link HessianProxyFactory} in order to 

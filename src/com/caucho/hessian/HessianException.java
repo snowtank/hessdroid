@@ -45,7 +45,6 @@
  *
  * @author Scott Ferguson
  */
-
 package com.caucho.hessian;
 
 /**

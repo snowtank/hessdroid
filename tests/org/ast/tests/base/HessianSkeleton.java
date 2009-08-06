@@ -46,16 +46,16 @@
  * @author Scott Ferguson
  */
 
-package com.caucho.hessian.server;
+package org.ast.tests.base;
 
 import com.caucho.hessian.io.AbstractHessianInput;
 import com.caucho.hessian.io.AbstractHessianOutput;
-import com.caucho.services.server.AbstractSkeleton;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  * Proxy class for Hessian services.
