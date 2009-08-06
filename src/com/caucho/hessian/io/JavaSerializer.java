@@ -49,7 +49,6 @@
 package com.caucho.hessian.io;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -427,7 +426,8 @@ public class JavaSerializer extends AbstractSerializer
         log.log(Level.FINE, e.toString(), e);
       }
 
-      out.writeUTCDate(value.getTime());
+      
+      if (value != null) out.writeUTCDate(value.getTime()); else out.writeNull();
     }
   }
 }

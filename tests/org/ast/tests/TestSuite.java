@@ -26,7 +26,8 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @SuiteClasses({
 		PrimitiveTypeTests.class,
-		ReferenceTypeTests.class
+		ReferenceTypeTests.class,
+		NullDateTests.class
 })
 @RunWith(Suite.class)
 public class TestSuite {

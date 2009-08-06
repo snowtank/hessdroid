@@ -26,15 +26,17 @@ import org.ast.tests.base.HessianTest;
 import org.junit.Test;
 
 /**
- * {@link HessianTest} that is intented to test method calls with reference data types.
+ * {@link HessianTest} that is intented to regression test a bug in hessdroid: 
+ * 
+ * http://code.google.com/p/hessdroid/issues/detail?id=1
  * 
  * @author hessdroid@gmail.com
  */
-public class ReferenceTypeTests extends HessianTest<TestReferenceTypes> {
+public class NullDateTests extends HessianTest<TestReferenceTypes> {
 
 	private static final Date testDate = new Date();
 	
-	public ReferenceTypeTests() throws Exception {
+	public NullDateTests() throws Exception {
 		super(new TestReferenceTypes()  {
 			public TestType getTestType() {
 				return new TestType()  {
@@ -45,7 +47,7 @@ public class ReferenceTypeTests extends HessianTest<TestReferenceTypes> {
 			}
 
 			public Date getDate() {
-				return testDate;
+				return null;
 			}
 		});
 	}
@@ -53,7 +55,7 @@ public class ReferenceTypeTests extends HessianTest<TestReferenceTypes> {
 	@Test public void callObject() throws Exception {
 		assertNotNull(client().getTestType());
 		assertEquals("name", client().getTestType().getName());
-		assertEquals(testDate, client().getDate());
+		assertEquals(null, client().getDate());
 	}
 
 }

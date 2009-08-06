@@ -16,6 +16,7 @@
 package org.ast.tests.api;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Simple interface for testing reference data types.
@@ -24,4 +25,5 @@ import java.io.Serializable;
  */
 public interface TestReferenceTypes extends Serializable {
 	public TestType getTestType();
+	public Date getDate();
 }
