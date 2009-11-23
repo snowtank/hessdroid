@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ast.tests;
+package org.ast.tests.api;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 /**
- * hessdroid test suite.
- * 
- * @author hessdroid@gmail.com
+ * Simple interface for testing collection data types.
+ *
+ * @author <a href="mailto:wolf@wolfpaulus.com">Wolf Paulus</a>
  */
-@SuiteClasses({		
-		PrimitiveTypeTests.class,
-		ReferenceTypeTests.class,
-		NullDateTests.class,
-		CollectionTypeTests.class
-})
-@RunWith(Suite.class)
-public class TestSuite {
-
+public interface TestCollectionTypes extends Serializable { 
+	public Set<String> getSet();
+	public List<Number> getList();
+	public Map<Integer,Date> getMap();
+	public Collection<Iterable<?>> getCollection();
 }

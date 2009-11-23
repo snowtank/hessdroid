@@ -34,6 +34,7 @@ public class ReferenceTypeTests extends HessianTest<TestReferenceTypes> {
 
 	private static final Date testDate = new Date();
 	
+	@SuppressWarnings("serial")
 	public ReferenceTypeTests() throws Exception {
 		super(new TestReferenceTypes()  {
 			public TestType getTestType() {

@@ -18,7 +18,7 @@ package org.ast.tests.api;
 import java.io.Serializable;
 
 /**
- * Simple interface for testing primitve data types.
+ * Simple interface for testing primitive data types.
  *
  * @author hessdroid@gmail.com
  */

@@ -22,12 +22,13 @@ import org.ast.tests.base.HessianTest;
 import org.junit.Test;
 
 /**
- * {@link HessianTest} that is intented to test method calls with primitive data types.
+ * {@link HessianTest} that is intended to test method calls with primitive data types.
  * 
  * @author hessdroid@gmail.com
  */
 public class PrimitiveTypeTests extends HessianTest<TestPrimitiveTypes> {
 	
+	@SuppressWarnings("serial")
 	public PrimitiveTypeTests() throws Exception {
 		super(new TestPrimitiveTypes()  {
 			
