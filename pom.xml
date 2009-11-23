@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>hessdroid</groupId>
+	<groupId>com.caucho</groupId>
 	<artifactId>hessdroid</artifactId>
 	<version>0.8</version>
 	<packaging>jar</packaging>
@@ -13,7 +13,6 @@
 	<url>http://code.google.com/p/hessdroid/</url>
 
 	<description>Android port of the Java hessian (binary web service protocol) library provided by Caucho</description>
-	<shortDescription>Hessian 4 Android</shortDescription>
 
 	<issueManagement>
 		<system>Google Code</system>
@@ -41,6 +40,22 @@
 			<timezone />
 			<properties />
 		</developer>
+		<developer>
+			<id>andre.steingress</id>
+			<name>Andre Steingress</name>
+			<email>andre dot steingress at gmail dot com</email>
+			<roles>
+				<role>Owner</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>thomas.einwaller</id>
+			<name>Thomas Einwaller</name>
+			<email>thomas dot einwaller at gmail dot com</email>
+			<roles>
+				<role>Committer</role>
+			</roles>
+		</developer>
 	</developers>
 	<licenses>
 		<license>
@@ -60,6 +75,8 @@
 
 	<build>
 		<defaultGoal>package</defaultGoal>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>tests</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -82,7 +99,7 @@
 					<licenseLocation>${basedir}/src/test/clover/clover.license</licenseLocation>
 					<jdk>1.6</jdk>
 					<excludes>
-						<exclude>**/test/java</exclude>
+						<exclude>**/tests</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -125,6 +142,9 @@
 	</reporting>
 	<distributionManagement>
 		<repository>
+		<id>local</id>
+        <name>LocalRepository</name>
+        <url>file://~/tmp</url>
 		</repository>
 	</distributionManagement>
 </project>
