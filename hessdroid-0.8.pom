@@ -1,25 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project 
-	xmlns="http://maven.apache.org/POM/4.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  
-  <modelVersion>4.0.0</modelVersion>
 
-  <groupId>hessdroid</groupId>
-  <artifactId>hessdroid</artifactId>
-  <version>0.8</version>
-  <packaging>jar</packaging>
-  <name>hessdroid</name>
-  <url>http://code.google.com/p/hessdroid/</url>
-  <description>Android port of the Java hessian (binary web service protocol) library provided by Caucho</description>
-  <issueManagement>
-  	<system>Google Code</system>
-  	<url>http://code.google.com/p/hessdroid/issues/list</url>
-  </issueManagement>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>hessdroid</groupId>
+	<artifactId>hessdroid</artifactId>
+	<version>0.8</version>
+	<packaging>jar</packaging>
+	<name>hessdroid</name>
+
+	<url>http://code.google.com/p/hessdroid/</url>
+
+	<description>Android port of the Java hessian (binary web service protocol) library provided by Caucho</description>
+	<shortDescription>Hessian 4 Android</shortDescription>
+
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/hessdroid/issues/list</url>
+	</issueManagement>
 
 	<scm>
-    <url>https://hessdroid.googlecode.com/hg/</url>
-  </scm>
- 
+		<connection>scm:hg:https://hessdroid.googlecode.com/hg</connection>
+		<developerConnection>scm:hg:https://hessdroid.googlecode.com/hg</developerConnection>
+		<url>http://code.google.com/p/hessdroid/source/browse/</url>
+	</scm>
+	<inceptionYear>2009</inceptionYear>
+
+	<developers>
+		<developer>
+			<id>wolfpaulus</id>
+			<name>Wolf Paulus</name>
+			<email>wolfpaulus at gmail dot com</email>
+			<url />
+			<organization>wolfpaulus.com</organization>
+			<organizationUrl>wolfpaulus.com</organizationUrl>
+			<roles>
+				<role>Committer</role>
+			</roles>
+			<timezone />
+			<properties />
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 1.1</name>
+			<url>http://www.apache.org/licenses/LICENSE-1.1</url>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>package</defaultGoal>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-ea -Xmx1024m -Xms128m -Dcom.sun.management.jmxremote</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clover-plugin</artifactId>
+				<configuration>
+					<licenseLocation>${basedir}/src/test/clover/clover.license</licenseLocation>
+					<jdk>1.6</jdk>
+					<excludes>
+						<exclude>**/test/java</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>instrument</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache.stage</id>
+			<name>Apache Stage Repository</name>
+			<url>http://people.apache.org/repo/m2-incubating-repository</url>
+			<layout>default</layout>
+		</pluginRepository>
+	</pluginRepositories>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<configuration>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+					<targetJdk>1.5</targetJdk>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+	<distributionManagement>
+		<repository>
+		</repository>
+	</distributionManagement>
 </project>
