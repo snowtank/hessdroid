@@ -46,7 +46,7 @@
  * @author Scott Ferguson
  */
 
-package org.ast.tests.base;
+package com.caucho.services.server;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
