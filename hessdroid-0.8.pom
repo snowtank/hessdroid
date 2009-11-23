@@ -10,8 +10,7 @@
   <artifactId>hessdroid</artifactId>
   <version>0.8</version>
   <packaging>jar</packaging>
-	<name>hessdroid</name>
-  <name>Swixml</name>
+  <name>hessdroid</name>
   <url>http://code.google.com/p/hessdroid/</url>
   <description>Android port of the Java hessian (binary web service protocol) library provided by Caucho</description>
   <issueManagement>
