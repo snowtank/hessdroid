@@ -1,0 +1,170 @@
+<!-- $Id: build.xml,v 1.0 2009/11/30 06:43:09 wolfpaulus Exp $ -->
+<!--
+        For instructions on how to build Swixml, please view the README.txt file.
+-->
+<project name="hessdroid" default="package" basedir=".">
+
+    <!-- =================================================================== -->
+    <!-- Initialization target                                               -->
+    <!-- =================================================================== -->
+    <target name="init">
+        <tstamp/>
+
+        <property name="Name" value="HESSDROID"/>
+        <property name="name" value="hessdroid"/>
+        <property name="build.id" value="1"/>
+        <property name="version" value="1.0 (#${build.id})"/>
+        <property name="version.impl" value="${version}"/>
+        <property name="version.spec" value="1.5"/>
+        <property name="year" value="2009"/>
+
+        <echo message="----------- ${Name} ${version} ------------"/>
+
+        <property name="compile.debug" value="false"/>
+        <property name="compile.optimize" value="true"/>
+        <property name="compile.deprecation" value="true"/>
+        <property name="compile.compiler" value="modern"/>
+        <property name="compile.source" value="1.5"/>
+        <property name="compile.target" value="1.5"/>
+        <property name="android.target" value="1.6"/>
+
+
+        <property name="src.dir" location="src"/>
+        <property name="tst.dir" location="tests"/>
+
+        <property name="packages" value="com.caucho.*"/>
+
+        <property name="build.dir" location="build"/>
+        <property name="build.src" location="build/src"/>
+        <property name="build.dest" location="build/classes"/>
+        <property name="build.javadocs" location="build/apidocs"/>
+
+        <property name="package.dir" location="build"/>
+
+        <filter token="year" value="${year}"/>
+        <filter token="version" value="${version}"/>
+        <filter token="date" value="${TODAY}"/>
+        <filter token="log" value="true"/>
+        <filter token="verbose" value="true"/>
+
+        <!-- Default JAR libraries -->
+        <property name="android.jar"   location="/Users/wolf/Work/Repository/Android/android-sdk-mac/platforms/android-${android.target}/android.jar"/>
+        <property name="junit.jar"     location="/Users/wolf/Work/Repository/JUnit/junit4.7/junit-4.7.jar"/>
+        <property name="junit-dep.jar" location="/Users/wolf/Work/Repository/Junit/junit4.7/junit-dep-4.7.jar"/>
+
+
+        <!-- Compilation class path -->
+        <path id="compile.class.path">
+            <pathelement location="${junit-dep.jar}"/>
+            <pathelement location="${junit.jar}"/>
+            <pathelement location="${android.jar}"/>
+        </path>
+
+    </target>
+
+
+    <!-- =================================================================== -->
+    <!-- Prepares the build directory                                        -->
+    <!-- =================================================================== -->
+    <target name="prepare" depends="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.src}"/>
+        <mkdir dir="${build.dest}"/>
+
+        <!-- copy src files -->
+        <copy todir="${build.src}" filtering="yes">
+            <fileset dir="${src.dir}"/>
+            <!--fileset dir="${tst.dir}"/-->
+        </copy>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Compiles the source directory                                       -->
+    <!-- =================================================================== -->
+    <target name="compile" depends="prepare" description="Compiles the source code">
+
+        <javac
+                srcdir="${build.src}"
+                destdir="${build.dest}"
+                debug="${compile.debug}"
+                optimize="${compile.optimize}"
+                deprecation="${compile.deprecation}"
+                compiler="${compile.compiler}"
+                bootclasspath="${android.jar}"
+                source="${compile.source}"
+                target="${compile.target}">
+            <classpath refid="compile.class.path"/>
+        </javac>
+    </target>
+
+
+    <!-- =================================================================== -->
+    <!-- Creates the class package                                           -->
+    <!-- =================================================================== -->
+    <target name="package" depends="compile,javadoc" description="Creates the class package">
+        <fixcrlf srcdir="." includes="**/*.bat" excludes="build*.*" eol="crlf"/>
+        <fixcrlf srcdir="." includes="**/*.sh" excludes="build*.*" eol="lf"/>
+
+        <!-- Create Manifest -->
+        <mkdir dir="${build.dest}/META-INF"/>
+
+        <manifest file="${build.dest}/META-INF/MANIFEST.MF">
+            <attribute name="Built-By" value="${user.name}"/>
+            <section name="common">
+                <attribute name="Specification-Title" value="${ant.project.name}"/>
+                <attribute name="Specification-Vendor" value="caucho.com"/>
+                <attribute name="Specification-Version" value="${version.spec}"/>
+                <attribute name="Implementation-Title" value="com.caucho"/>
+                <attribute name="Implementation-Vendor" value="caucho.com"/>
+                <attribute name="Implementation-Version" value="${version.impl}"/>
+            </section>
+        </manifest>
+
+        <jar jarfile="${build.dir}/${name}.jar"
+             basedir="${build.dest}"
+             excludes="META-INF/MANIFEST.MF"
+             manifest="${build.dest}/META-INF/MANIFEST.MF"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Creates the API documentation                                       -->
+    <!-- =================================================================== -->
+    <target name="javadoc" depends="prepare" description="Creates the API documentation">
+        <mkdir dir="${build.javadocs}"/>
+        <javadoc
+                breakiterator="true"
+                packagenames="${packages}"
+                sourcepath="${build.src}"
+                destdir="${build.javadocs}"
+                author="true"
+                version="true"
+                use="true"
+                splitindex="true"
+                noindex="false"
+                windowtitle="${Name} API v${version}"
+                doctitle="${Name} v${version}&lt;br&gt;API Specification"
+                header="&lt;b&gt;${Name}&lt;br&gt;&lt;font size='-1'&gt;${version}&lt;/font&gt;&lt;/b&gt;"
+                bottom="Copyright &#169; 2009 - ${year} - Wolf Paulus - &lt;a href='http://wolfpaulus.com' target='_blank'&gt;wolfpaulus.com&lt;/a&gt;. All rights reserved.">
+
+            <classpath refid="compile.class.path"/>
+
+            <link href="http://developer.android.com/reference/"/>
+        </javadoc>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Clean targets                                                       -->
+    <!-- =================================================================== -->
+
+    <target name="clean" depends="init" description="Removes build the distribution files">
+        <delete dir="./classes"/>
+        <delete dir="${build.dir}"/>
+
+        <delete file="${Name}-${version}.tar.gz"/>
+        <delete file="${Name}-${version}.tar"/>
+        <delete file="${Name}-${version}.zip"/>
+    </target>
+
+
+</project>
+
