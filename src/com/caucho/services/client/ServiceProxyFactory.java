@@ -75,7 +75,8 @@ public interface ServiceProxyFactory {
    * @param url the URL where the client object is located.
    *
    * @return a proxy to the object with the specified interface.
+   * @throws java.net.MalformedURLException in case url to remote interface is invalid
    */
-  public Object create(Class api, String url)
+  public <T>T create(Class<T> api, String url)
     throws java.net.MalformedURLException;
 }

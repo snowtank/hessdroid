@@ -66,14 +66,15 @@ public class HessianHttpProxyFactory extends HessianProxyFactory {
 	 * @throws java.net.MalformedURLException
 	 *             if URL object cannot be created with the provided urlName
 	 */
-	@Override
-	public Object create(Class api, String urlName, ClassLoader loader) throws MalformedURLException {
+	@SuppressWarnings({"unchecked"})
+    @Override
+	public <T>T create(Class<T> api, String urlName, ClassLoader loader) throws MalformedURLException {
 		//
 		// todo: since the api is already loaded, maybe the api class' classloader should be tried,
 		// in case the provided classloader fails.
 
 		InvocationHandler handler = new HessianHttpProxy(this, new URL(urlName));
-		return Proxy.newProxyInstance(loader, new Class[] { api, HessianRemoteObject.class }, handler);
+		return (T)Proxy.newProxyInstance(loader, new Class[] { api, HessianRemoteObject.class }, handler);
 	}
 
 	/**

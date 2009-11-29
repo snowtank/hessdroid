@@ -290,15 +290,16 @@ public class HessianProxyFactory implements ServiceProxyFactory {
      * @throws java.net.MalformedURLException if URL object cannot be created with the provided urlName
      * @throws ClassNotFoundException         if the current Thread's contextClassLoader cannot find the api class
      */
+    @SuppressWarnings({"unchecked"})
     public Object create(String urlName) throws MalformedURLException, ClassNotFoundException {
-        HessianMetaInfoAPI metaInfo = (HessianMetaInfoAPI) create(HessianMetaInfoAPI.class, urlName);
+        HessianMetaInfoAPI metaInfo = create(HessianMetaInfoAPI.class, urlName);
         String apiClassName = (String) metaInfo._hessian_getAttribute("java.api.class");
 
         if (apiClassName == null) {
             throw new HessianRuntimeException(urlName + " has an unknown api.");
         }
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Class apiClass = Class.forName(apiClassName, false, loader);
+        Class<Object> apiClass = (Class<Object>) Class.forName(apiClassName, false, loader);
         return create(apiClass, urlName);
     }
 
@@ -315,7 +316,7 @@ public class HessianProxyFactory implements ServiceProxyFactory {
      * @param urlName the URL where the client object is located.
      * @return a proxy to the object with the specified interface.
      */
-    public Object create(Class api, String urlName) throws MalformedURLException {
+    public <T>T create(Class<T> api, String urlName) throws MalformedURLException {
         return create(api, urlName, Thread.currentThread().getContextClassLoader());
     }
 
@@ -334,16 +335,15 @@ public class HessianProxyFactory implements ServiceProxyFactory {
      * @return a proxy to the object with the specified interface.
      * @throws java.net.MalformedURLException if URL object cannot be created with the provided urlName
      */
-    public Object create(Class api, String urlName, ClassLoader loader) throws MalformedURLException {
+    @SuppressWarnings({"unchecked"})
+    public <T>T create(Class<T> api, String urlName, ClassLoader loader) throws MalformedURLException {
         if (api == null) {
             throw new NullPointerException("api must not be null for HessianProxyFactory.create()");
         }
         InvocationHandler handler;
-
         URL url = new URL(urlName);
         handler = new HessianProxy(this, url);
-
-        return Proxy.newProxyInstance(loader, new Class[]{api, HessianRemoteObject.class}, handler);
+        return (T) Proxy.newProxyInstance(loader, new Class[]{api, HessianRemoteObject.class}, handler);
     }
 
     public AbstractHessianInput getHessianInput(InputStream is) {
