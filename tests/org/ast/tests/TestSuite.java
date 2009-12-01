@@ -28,7 +28,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		PrimitiveTypeTests.class,
 		ReferenceTypeTests.class,
 		NullDateTests.class,
-		CollectionTypeTests.class
+		CollectionTypeTests.class,
+		CookieParserTests.class
 })
 @RunWith(Suite.class)
 public class TestSuite {

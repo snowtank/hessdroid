@@ -15,17 +15,18 @@
  */
 package com.caucho.hessian.client;
 
-import com.caucho.hessian.io.HessianRemoteObject;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
+
+import com.ast.util.CookieParser;
+import com.ast.util.CookieParser.Cookie;
+import com.caucho.hessian.io.HessianRemoteObject;
 
 /**
  * <code>HessianHttpProxyFactory</code> extends the
@@ -103,10 +104,9 @@ public class HessianHttpProxyFactory extends HessianProxyFactory {
 	 */
 	private static class HessianHttpProxy extends HessianProxy {
 		private static final Logger log = Logger.getLogger(HessianHttpProxy.class.getName());
-		private static final Map<String, String> cookieMap = new Hashtable<String, String>(10);
+		private static final HashMap<String, Cookie> cookieMap = new HashMap<String, Cookie>();
 
 		private static final String COOKIE_SET = "set-cookie";
-		private static final String PATH_ID = "Path=";
 
 		HessianHttpProxy(HessianProxyFactory factory, URL url) {
 			super(url, factory);
@@ -126,12 +126,10 @@ public class HessianHttpProxyFactory extends HessianProxyFactory {
 			if (cookieStrings != null) {
 				String host = conn.getURL().getHost();
 				for (String s : cookieStrings) {
-					// Find Path info, in something like this:
-					// JSESSIONID=261A89FE483467978F49FC50F22F068E; Path=/Server
-					int i = s.lastIndexOf(HessianHttpProxy.PATH_ID);
-					String path = (0 < i) ? s.substring(i + HessianHttpProxy.PATH_ID.length()) : "";
-					HessianHttpProxy.cookieMap.put(host + path, s);
-					log.finest("Cookie cached: " + host + path + ":" + s);
+					Cookie cookie = CookieParser.parse(host, s);
+					
+					HessianHttpProxy.cookieMap.put(cookie.host + cookie.path, cookie);
+					log.finest("Cookie cached: " + cookie.host + cookie.path  + ":" + s);
 				}
 			}
 		}
@@ -149,13 +147,12 @@ public class HessianHttpProxyFactory extends HessianProxyFactory {
 
 			String host = conn.getURL().getHost();
 			String path = conn.getURL().getPath();
-			String cookieString;
 
 			while (path != null && 0 < path.length()) {
-				cookieString = HessianHttpProxy.cookieMap.get(host + path);
-				if (cookieString != null) {
-					conn.setRequestProperty("Cookie", cookieString);
-					log.finest("Cookie set in request:" + cookieString);
+				Cookie cookie = HessianHttpProxy.cookieMap.get(host + path);
+				if (cookie != null) {
+					conn.setRequestProperty("Cookie", cookie.value);
+					log.finest("Cookie set in request:" + cookie.value);
 					break;
 				}
 				int i = path.lastIndexOf("/");
