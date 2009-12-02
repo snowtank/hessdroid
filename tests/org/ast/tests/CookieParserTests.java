@@ -15,36 +15,78 @@
  */
 package org.ast.tests;
 
-import org.junit.Test;
-
 import com.ast.util.CookieParser;
 import com.ast.util.CookieParser.Cookie;
+import org.junit.Test;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 public class CookieParserTests {
 
-	@Test public void testWithCookieValueAndPath() throws Exception {
-		
-		Cookie c = CookieParser.parse("myhost", "Set-Cookie: cookie-value; path=path");
-		
-		
-		assertEquals(c.host, "myhost");
-		assertEquals(c.path, "path");
-	}
-	
-	@Test public void testWithCompleteCookiePath() throws Exception {
-		// Set-Cookie: cookie-value; expires=date; path=path; domain=domain-name; secure
-		
-		Cookie c = CookieParser.parse("myhost", "Set-Cookie: cookie-value; expires=date; path=path; domain=domain-name; secure");
-		
-		
-		assertEquals(c.host, "myhost");
-		assertEquals(c.path, "path");
-		assertEquals(c.value, "cookie-value");
-		assertEquals(c.expires, "date");
-		assertEquals(c.domain, "domain");
-		assertEquals(c.secure, true);
-	}
-	
+    @Test
+    public void testWithCookieValueAndPath() throws Exception {
+
+        Cookie c = CookieParser.parse("myhost", "Set-Cookie: cookie-value; path=path");
+
+
+        assertEquals(c.host, "myhost");
+        assertEquals(c.path, "path");
+    }
+
+    @Test
+    public void testWithCompleteCookiePath() throws Exception {
+        // Set-Cookie: cookie-value; expires=date; path=path; domain=domain-name; secure
+
+        Cookie c = CookieParser.parse("myhost", "Set-Cookie: cookie-value; expires=date; path=path; domain=domain-name; secure");
+
+
+        assertEquals(c.host, "myhost");
+        assertEquals(c.path, "path");
+        assertEquals(c.value, "cookie-value");
+        assertEquals(c.expires, "date");
+        assertEquals(c.domain, "domain-name");
+        assertEquals(c.secure, true);
+    }
+
+    @Test
+    public void testWithRealWorldCookie() throws Exception {
+
+        // simple real-world cookie:
+        Cookie c = CookieParser.parse("myhost", "Set-Cookie: JSESSIONID=9126DE0DA91BD7D3C1A1A0608EC66645; Path=/Server");
+        assertEquals(c.path, "/Server");
+        assertEquals(c.value, "JSESSIONID=9126DE0DA91BD7D3C1A1A0608EC66645");
+        assertEquals(c.sessionId, "9126DE0DA91BD7D3C1A1A0608EC66645");
+    }
+
+    @Test
+    public void testEdgeCases() throws Exception {
+        Cookie c;
+        try {
+            c = CookieParser.parse("myhost", null);
+            assertEquals(c.host, "myhost"); // never executed
+        } catch (Exception e) {
+            assertTrue("Expect Exception to be thrown in CookieParser.parse()", true);
+        }
+        try {
+            c = CookieParser.parse(null, "Set-Cookie: cookie-value; path=path");
+            assertEquals(c.path, "path"); // never executed
+        } catch (Exception e) {
+            assertTrue("Expect Exception to be thrown in CookieParser.parse()", true);
+        }
+
+        try {
+            c = CookieParser.parse("myhost", "");
+            assertEquals(c.host, "myhost");
+            assertEquals(c.value,"");
+            c = CookieParser.parse("", "Set-Cookie: cookie-value; path=path");
+            assertEquals(c.host, "");            
+            assertEquals(c.value,"cookie-value");
+            c = CookieParser.parse("myhost", "0123456789");
+            assertEquals(c.value, "0123456789");
+        } catch (Exception e) {
+            assertTrue("Exception thrown in CookieParser.parse()", false);
+        }
+    }
+
 }
