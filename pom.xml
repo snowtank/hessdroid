@@ -145,11 +145,16 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<distributionManagement>
-		<repository>
-		<id>local</id>
-        <name>LocalRepository</name>
-        <url>file://~/tmp</url>
-		</repository>
-	</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Staging Repo</name>
+            <url>http://oss.sonatype.org/content/groups/staging</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Nexus Snapshot Repo</name>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
