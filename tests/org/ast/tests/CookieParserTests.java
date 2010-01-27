@@ -57,6 +57,12 @@ public class CookieParserTests {
         assertEquals(c.path, "/Server");
         assertEquals(c.value, "JSESSIONID=9126DE0DA91BD7D3C1A1A0608EC66645");
         assertEquals(c.sessionId, "9126DE0DA91BD7D3C1A1A0608EC66645");
+
+        // simple real-world cookie:
+        c = CookieParser.parse("myhost", "Set-Cookie: JSESSIONID=9126DE0DA91BD7D3C1A1A0608EC66645; Path=/");
+        assertEquals(c.path, "/");
+        assertEquals(c.value, "JSESSIONID=A5BCBA5F3B50EC39E3CA4CE3EE86210C");
+        assertEquals(c.sessionId, "A5BCBA5F3B50EC39E3CA4CE3EE86210C");
     }
 
     @Test
