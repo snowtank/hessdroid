@@ -88,7 +88,12 @@ public interface Hessian2Constants
   public static final int DOUBLE_BYTE = 0x69;
   public static final int DOUBLE_SHORT = 0x6a;
   public static final int DOUBLE_FLOAT = 0x6b;
-  
+
+  public static final int BC_DOUBLE_ZERO = 0x5b;
+  public static final int BC_DOUBLE_ONE = 0x5c;
+  public static final int BC_DOUBLE_BYTE = 0x5d;
+  public static final int BC_DOUBLE_SHORT = 0x5e;
+
   public static final int LENGTH_BYTE = 0x6e;
   public static final int LIST_FIXED = 0x76; // 'v'
 
